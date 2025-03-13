@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer components {
+  body {
+    color: hsl(var(--foreground));
+    background: hsl(var(--background));
+    font-family: Arial, Helvetica, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  /* Video.js Özel Tema */
+  .video-js {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .video-js .vjs-big-play-button {
+    background-color: hsl(var(--primary));
+    border: none;
+    border-radius: 9999px;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 3rem;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .video-js:hover .vjs-big-play-button {
+    background-color: hsl(var(--primary) / 0.9);
+  }
+
+  .video-js .vjs-control-bar {
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 4rem;
+  }
+
+  .video-js .vjs-progress-holder {
+    height: 0.5rem;
+  }
+
+  .video-js .vjs-play-progress {
+    background-color: hsl(var(--primary));
+  }
+
+  .video-js .vjs-slider {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .video-js .vjs-volume-panel {
+    width: 8em;
+  }
+
+  .video-js .vjs-volume-bar.vjs-slider-horizontal {
+    width: 5em;
+    height: 0.5rem;
+  }
+
+  .video-js .vjs-volume-level {
+    background-color: hsl(var(--primary));
+    height: 0.5rem;
+  }
+
+  .video-js .vjs-time-control {
+    font-size: 1em;
+    line-height: 4rem;
+  }
+
+  .video-js .vjs-playback-rate .vjs-playback-rate-value {
+    font-size: 1.2em;
+    line-height: 4rem;
+  }
+
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .outline-text {
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Hover efektleri sadece hover destekleyen cihazlarda çalışsın */
+  @media (hover: hover) {
+    .hover-effect {
+      transition: all 0.3s ease;
+    }
+
+    .hover-effect:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+    }
+
+    .hover-opacity:hover {
+      opacity: 0.8;
+    }
+
+    .hover-brightness:hover {
+      filter: brightness(1.1);
+    }
+  }
+
+  /* Touch cihazlar için aktif durum efektleri */
+  @media (hover: none) {
+    .hover-effect:active {
+      transform: scale(0.98);
+    }
+
+    .hover-opacity:active {
+      opacity: 0.9;
+    }
+
+    .hover-brightness:active {
+      filter: brightness(0.95);
+    }
+  }
+}
+
+@layer utilities {
+  .animate-text {
+    animation: text 3s ease infinite;
+  }
+
+  @keyframes text {
+    0%, 100% {
+      background-size: 200% 200%;
+      background-position: left center;
+    }
+    50% {
+      background-size: 200% 200%;
+      background-position: right center;
+    }
+  }
+}
+
+img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+* {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  pointer-events: auto !important;
+}
+
+div, a, span, p, h1, h2, h3, h4, h5, h6 {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
