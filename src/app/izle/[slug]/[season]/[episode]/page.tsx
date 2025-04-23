@@ -18,8 +18,8 @@ export default function WatchPage() {
   useEffect(() => {
     const loadVideo = async () => {
       try {
-        const url = await getEpisodeStream(slug, parseInt(season), parseInt(episode));
-        setVideoUrl(url);
+        const qualities = await getEpisodeStream(slug, parseInt(season), parseInt(episode));
+        setVideoUrl(qualities[0]?.url || null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Video yüklenirken bir hata oluştu');
       } finally {
