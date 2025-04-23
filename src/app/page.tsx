@@ -1,13 +1,9 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
-import { type AnimeEpisode, API_URL, getLatestEpisodes, getAllAnimes } from '@/services/animeService';
+import { type AnimeEpisode, getLatestEpisodes, getAllAnimes } from '@/services/animeService';
 import LatestEpisodes from '@/components/LatestEpisodes';
-import Icon from '@/components/Icon';
 import { PopularAnimes } from '@/components';
 import { Loading, ErrorDisplay } from '@/components';
 import type { Anime, ApiEpisode } from '@/types';
@@ -50,7 +46,23 @@ export default function Home() {
 
         // Popüler animeleri al
         const animesData = await getAllAnimes(1, 30);
-        setPopularAnimes(animesData || []);
+        // API'den gelen veriyi kontrol et ve Anime tipine uygun şekilde dönüştür
+        const formattedAnimes = animesData ? animesData.map(anime => ({
+          ...anime,
+          turkish: anime.turkish || '',
+          english: anime.english || '',
+          romaji: anime.romaji || '',
+          japanese: '',
+          originalName: '',
+          type: 'TV',
+          summary: anime.summary || '',
+          pictures: {
+            banner: anime.pictures?.banner || '',
+            avatar: anime.pictures?.avatar || '',
+            poster: anime.pictures?.poster || ''
+          }
+        })) : [];
+        setPopularAnimes(formattedAnimes);
 
       } catch (err: unknown) {
         console.error('Veri yükleme hatası:', err);

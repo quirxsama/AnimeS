@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import Icon from './Icon';
 
 interface GenreFilterProps {
@@ -19,14 +18,6 @@ export default function GenreFilter({ genres, years, studios, onFilterChange }: 
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedStudio, setSelectedStudio] = useState<string>('');
-
-  const updateFilters = () => {
-    onFilterChange({
-      genres: selectedGenres,
-      years: selectedYear ? [parseInt(selectedYear)] : [],
-      studios: selectedStudio ? [selectedStudio] : []
-    });
-  };
 
   const handleGenreChange = (genre: string) => {
     const newGenres = selectedGenres.includes(genre)

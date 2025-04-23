@@ -41,6 +41,8 @@ yarn-error.log*
 next-env.d.ts
 
 progress.txt
+progress.md
+notes.md
 hatirla.txt
 openani.py
 /.vscode

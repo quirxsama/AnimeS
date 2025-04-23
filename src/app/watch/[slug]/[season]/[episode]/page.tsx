@@ -1,7 +1,8 @@
 "use client"
 
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import Image from 'next/image';
 import { getAnimeDetails, getAnimeEpisodes, getAniSkipData } from '@/services/animeService';
 import { Loading, ErrorDisplay, VideoPlayer } from '@/components';
 import { motion } from 'framer-motion';
@@ -83,11 +84,7 @@ export default function WatchPage() {
       .sort((a, b) => a.episode - b.episode);
   }, [episodes, selectedSeason]);
 
-  useEffect(() => {
-    loadAnimeData();
-  }, [params.slug, params.season, params.episode]);
-
-  const loadAnimeData = async () => {
+  const loadAnimeData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -134,7 +131,11 @@ export default function WatchPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.slug, params.season, params.episode]);
+
+  useEffect(() => {
+    loadAnimeData();
+  }, [loadAnimeData]);
 
   const handleTimeUpdate = (currentTime: number) => {
     // İzleme geçmişi kaldırıldı
@@ -275,15 +276,19 @@ export default function WatchPage() {
                     {/* Bölüm Küçük Resmi */}
                     <div className="relative w-32 aspect-video rounded-lg overflow-hidden flex-shrink-0 
                                   ring-1 ring-white/10 group-hover:ring-white/20 transition-all">
-                      <img
-                        src={episode.avatar || animeDetails?.pictures?.banner}
-                        alt={`Bölüm ${episode.episode}`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = animeDetails?.pictures?.banner || animeDetails?.pictures?.avatar;
-                        }}
-                      />
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={episode.avatar || animeDetails?.pictures?.banner || '/episode-placeholder.jpg'}
+                          alt={`Bölüm ${episode.episode}`}
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          fill
+                          sizes="128px"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = animeDetails?.pictures?.banner || animeDetails?.pictures?.avatar || '/episode-placeholder.jpg';
+                          }}
+                        />
+                      </div>
                       <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
                       <div className="absolute bottom-1.5 left-2 text-xs font-medium text-white/90 bg-black/50 
                                     px-1.5 py-0.5 rounded backdrop-blur-sm">

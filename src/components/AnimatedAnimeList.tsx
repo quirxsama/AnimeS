@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface Anime {
   id: string;
@@ -27,11 +27,7 @@ export default function AnimatedAnimeList() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState('');
 
-  useEffect(() => {
-    fetchAnimes();
-  }, [page, searchQuery, selectedGenre]);
-
-  const fetchAnimes = async () => {
+  const fetchAnimes = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(
@@ -66,7 +62,11 @@ export default function AnimatedAnimeList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, searchQuery, selectedGenre]);
+
+  useEffect(() => {
+    fetchAnimes();
+  }, [fetchAnimes]);
 
   if (loading) {
     return (

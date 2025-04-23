@@ -1,11 +1,11 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import AnimeFilters from '@/components/AnimeFilters'
 import { getFilteredAnimes, type AnimeFilters as FilterType } from '@/services/animeService'
 import AnimeCard from '@/components/AnimeCard'
 import { motion, AnimatePresence } from 'framer-motion'
-import axios, { CancelTokenSource } from 'axios'
+import axios from 'axios'
 import { Search, Filter, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -27,18 +27,11 @@ export default function BrowsePage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [showMobileFilters, setShowMobileFilters] = useState(false)
-  const cancelTokenRef = useRef<CancelTokenSource | null>(null)
+  const abortControllerRef = useRef<AbortController | null>(null)
   const lastFilterRef = useRef<FilterType | null>(null)
   const isMobileFilterChangeRef = useRef(false)
 
-  useEffect(() => {
-    // İlk yüklemede filtreleri uygula
-    if (isInitialLoad) {
-      handleFilterChange({});
-    }
-  }, []);
-
-  const handleFilterChange = async (filters: FilterType) => {
+  const handleFilterChange = useCallback(async (filters: FilterType) => {
     try {
       // Eğer mobil filtre değişikliği ise ve modal henüz kapanmamışsa işlemi yapma
       if (isMobileFilterChangeRef.current && showMobileFilters) {
@@ -46,34 +39,34 @@ export default function BrowsePage() {
       }
 
       // Önceki isteği iptal et
-      if (cancelTokenRef.current) {
-        cancelTokenRef.current.cancel('Yeni istek yapıldı')
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
       }
 
       // Eğer filtreler değişmediyse ve ilk yükleme değilse, isteği yapma
       if (!isInitialLoad && JSON.stringify(lastFilterRef.current) === JSON.stringify(filters)) {
-        return
+        return;
       }
 
-      // Yeni bir cancel token oluştur
-      cancelTokenRef.current = axios.CancelToken.source()
-      lastFilterRef.current = filters
+      // Yeni bir abort controller oluştur
+      abortControllerRef.current = new AbortController();
+      lastFilterRef.current = filters;
 
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
 
       const response = await getFilteredAnimes({ 
         ...filters, 
         page: currentPage 
-      }, cancelTokenRef.current.token)
+      });
       
       if (response === null) {
-        return
+        return;
       }
       
-      const animeData = response?.animes || response || []
+      const animeData = response?.animes || response || [];
       if (!Array.isArray(animeData)) {
-        throw new Error('Geçersiz API yanıtı')
+        throw new Error('Geçersiz API yanıtı');
       }
 
       setAnimes(animeData.map(anime => ({
@@ -84,37 +77,46 @@ export default function BrowsePage() {
         pictures: {
           avatar: anime.pictures?.avatar || anime.pictures?.poster || ''
         }
-      })))
+      })));
 
-      setTotalPages(response.totalPages || 1)
+      setTotalPages(response.totalPages || 1);
     } catch (err) {
-      if (axios.isCancel(err)) {
-        console.log('İstek iptal edildi:', err.message)
-        return
+      // AbortError, kullanıcı tarafından iptal edildi demektir, hata gösterme
+      if (err instanceof Error && err.name === 'AbortError') {
+        console.log('İstek iptal edildi');
+        return;
       }
-      setError('Animeler yüklenirken bir hata oluştu')
-      console.error(err)
+      
+      setError('Animeler yüklenirken bir hata oluştu');
+      console.error(err);
     } finally {
-      setLoading(false)
-      setIsInitialLoad(false)
-      isMobileFilterChangeRef.current = false
+      setLoading(false);
+      setIsInitialLoad(false);
+      isMobileFilterChangeRef.current = false;
     }
-  }
+  }, [isInitialLoad, showMobileFilters, currentPage]);
+
+  useEffect(() => {
+    // İlk yüklemede filtreleri uygula
+    if (isInitialLoad) {
+      handleFilterChange({});
+    }
+  }, [isInitialLoad, handleFilterChange]);
 
   // Bileşen temizlendiğinde aktif istekleri iptal et
   useEffect(() => {
     return () => {
-      if (cancelTokenRef.current) {
-        cancelTokenRef.current.cancel('Bileşen kaldırıldı')
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    handleFilterChange({ page: newPage })
-  }
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    handleFilterChange({ page: newPage });
+  };
 
   const container = {
     hidden: { opacity: 0 },
@@ -301,9 +303,9 @@ export default function BrowsePage() {
                   <AnimeFilters 
                     onFilterChange={(filters) => {
                       isMobileFilterChangeRef.current = true;
-                      setShowMobileFilters(false);
+                      handleFilterChange(filters);
                       setTimeout(() => {
-                        handleFilterChange(filters);
+                        setShowMobileFilters(false);
                       }, 300);
                     }} 
                     isInitialLoad={false} 

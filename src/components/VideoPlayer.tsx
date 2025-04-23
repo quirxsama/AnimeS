@@ -2,11 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 
-interface VideoSource {
-  url: string
-  resolution: number
-}
-
 interface VideoPlayerProps {
   animeSlug: string
   seasonNumber: number

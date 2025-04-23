@@ -1,6 +1,26 @@
 export const API_URL = 'https://api.openani.me';
 const PLAYER_URL = 'https://do7---ha-k8y3jyfa-8gcx.zyapbot.eu.org';
 
+export interface Anime {
+  slug: string;
+  turkish?: string;
+  english?: string;
+  romaji?: string;
+  summary?: string;
+  pictures?: {
+    banner?: string;
+    avatar?: string;
+    poster?: string;
+  };
+  title?: string;
+  genres?: string[];
+  score?: number;
+  status?: string;
+  firstAirDate?: string;
+  tmdbScore?: number;
+  malId?: number;
+}
+
 export interface AnimeEpisode {
   episodeData: {
     avatar?: string;
@@ -45,6 +65,32 @@ export interface AnimeEpisode {
   avatar?: string;
 }
 
+export interface Season {
+  season_number: number;
+  name?: string;
+  episode_count: number;
+}
+
+export interface ProductionCompany {
+  id: string;
+  name: string;
+  logo?: string;
+}
+
+export interface NextEpisode {
+  air_date: string;
+  episode_number: number;
+  name: string;
+  season_number: number;
+}
+
+export interface Review {
+  author: string;
+  rating: number;
+  content: string;
+  date: string;
+}
+
 export interface AnimeDetails {
   slug: string;
   turkish: string;
@@ -70,9 +116,9 @@ export interface AnimeDetails {
   genresEnglish: string[];
   firstAirDate: string;
   lastAirDate: string;
-  seasons: any[];
-  nextEpisodeToAir: any;
-  productionCompanies: any[];
+  seasons: Season[];
+  nextEpisodeToAir: NextEpisode | null;
+  productionCompanies: ProductionCompany[];
   numberOfEpisodes: number;
   numberOfSeasons: number;
   tmdbScore: number;
@@ -87,7 +133,7 @@ export interface AnimeDetails {
   myAnimeListURL: string;
   explorePageCategories: string[];
   malWebsites: string[];
-  reviews: any[];
+  reviews: Review[];
   reviewRating: number;
   status?: string;
 }
@@ -153,11 +199,41 @@ export interface AnimeFilters {
   page?: number;
 }
 
+export interface ApiEpisodeFile {
+  file: string;
+  resolution: number;
+}
+
+export interface ApiEpisode {
+  avatar?: string;
+  thumbnail?: string;
+  episodeNumber: number;
+  name?: string;
+  summary?: string;
+  airDate?: string;
+  files?: ApiEpisodeFile[];
+  fansub?: {
+    id: string;
+    name: string;
+    secureName: string;
+    avatar: string;
+    website: string;
+    discord: string;
+  };
+  malId?: number;
+  season: number;
+  episode: number;
+  pictures: {
+    banner: string;
+    avatar: string;
+  };
+}
+
 export const getFilteredAnimes = async (filters: AnimeFilters) => {
   try {
     const { categories, score, dateRange, page = 1 } = filters;
     
-    let queryParams = new URLSearchParams();
+    const queryParams = new URLSearchParams();
     queryParams.append('page', page.toString());
 
     if (categories && categories.length > 0) {
@@ -217,14 +293,14 @@ export async function searchAnime(query: string): Promise<AnimeSearchResult[]> {
       return [];
     }
 
-    return data.map((anime: any) => ({
+    return data.map((anime: AnimeSearchResult) => ({
       slug: anime.slug,
-      turkish: anime.title?.turkish || anime.turkish || anime.title?.english || anime.english || anime.title?.romaji || anime.romaji,
-      english: anime.title?.english || anime.english,
-      romaji: anime.title?.romaji || anime.romaji,
-      summary: anime.description || anime.synopsis || '',
+      turkish: anime.turkish || (anime as any).title?.turkish || (anime as any).title?.english || anime.english || (anime as any).title?.romaji || anime.romaji,
+      english: (anime as any).title?.english || anime.english,
+      romaji: (anime as any).title?.romaji || anime.romaji,
+      summary: (anime as any).description || (anime as any).synopsis || '',
       pictures: {
-        avatar: anime.pictures?.avatar || anime.pictures?.poster || ''
+        avatar: anime.pictures?.avatar || (anime as any).pictures?.poster || ''
       }
     }));
   } catch (error) {
@@ -289,7 +365,7 @@ export async function getAnimeEpisodes(slug: string): Promise<AnimeEpisode[]> {
   try {
     const animeDetails = await getAnimeDetails(slug);
     const seasons = animeDetails.numberOfSeasons || 1;
-    let allEpisodes: AnimeEpisode[] = [];
+    const allEpisodes: AnimeEpisode[] = [];
 
     for (let season = 1; season <= seasons; season++) {
       const response = await fetch(`${API_URL}/anime/${slug}/season/${season}`);
@@ -298,7 +374,7 @@ export async function getAnimeEpisodes(slug: string): Promise<AnimeEpisode[]> {
       const data = await response.json();
       const episodes = data.season?.episodes || [];
 
-      episodes.forEach((episode: any) => {
+      episodes.forEach((episode: ApiEpisode) => {
         allEpisodes.push({
           type: 'tv',
           pictures: {
@@ -361,8 +437,8 @@ export async function getEpisodeStream(slug: string, seasonNumber: number, episo
     
     if (data.episodeData?.files) {
       const sources = data.episodeData.files
-        .filter((file: any) => file.file) // Geçerli dosyaları filtrele
-        .map((file: any) => ({
+        .filter((file: ApiEpisodeFile) => file.file) // Geçerli dosyaları filtrele
+        .map((file: ApiEpisodeFile) => ({
           resolution: file.resolution || 720,
           url: `${PLAYER_URL}/stream/${file.file}`
         }));
@@ -403,14 +479,14 @@ export async function getSimilarAnime(slug: string): Promise<AnimeSearchResult[]
       throw new Error(`Benzer animeler alınamadı: ${response.status}`);
     }
     const data = await response.json();
-    return data.map((anime: any) => ({
+    return data.map((anime: AnimeSearchResult) => ({
       slug: anime.slug,
       turkish: anime.turkish || anime.english || anime.romaji,
       english: anime.english,
       romaji: anime.romaji,
-      summary: anime.description || '',
+      summary: (anime as any).description || '',
       pictures: {
-        avatar: anime.pictures?.avatar || anime.pictures?.poster || ''
+        avatar: anime.pictures?.avatar || (anime as any).pictures?.poster || ''
       }
     }));
   } catch (error) {
@@ -419,7 +495,7 @@ export async function getSimilarAnime(slug: string): Promise<AnimeSearchResult[]
   }
 }
 
-export async function getAllAnimes(page = 1, limit = 50): Promise<any[]> {
+export async function getAllAnimes(page = 1, limit = 50): Promise<Anime[]> {
   try {
     const response = await fetch(`${API_URL}/anime?page=${page}&limit=${limit}`);
     if (!response.ok) return [];

@@ -3,8 +3,15 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { getAnimeDetails, getAnimeEpisodes, type AnimeDetails, type AnimeEpisode } from '@/services/animeService';
 import { Loading, ErrorDisplay } from '@/components';
+
+interface Season {
+  season_number: number;
+  name?: string;
+  episode_count: number;
+}
 
 export default function AnimePage() {
   const params = useParams();
@@ -84,10 +91,13 @@ export default function AnimePage() {
       >
         {/* Banner Resmi */}
         <div className="relative h-64 md:h-96">
-          <img
+          <Image
             src={anime.pictures?.banner || '/placeholder.jpg'}
             alt={anime.title}
-            className="w-full h-full object-cover"
+            className="object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 100vw"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card-900 via-card-900/50 to-transparent" />
         </div>
@@ -134,7 +144,7 @@ export default function AnimePage() {
         {/* Sezon Seçici */}
         <div className="mb-6">
           <div className="flex gap-4 overflow-x-auto pb-4">
-            {anime.seasons.map((season: any) => (
+            {anime.seasons.map((season: Season) => (
               <button
                 key={`season-${season.season_number}`}
                 onClick={() => setSelectedSeason(season.season_number)}
@@ -156,7 +166,7 @@ export default function AnimePage() {
         {/* Bölüm Listesi */}
         <div className="p-6 bg-card-900/90 backdrop-blur-sm">
           <h2 className="text-2xl font-bold text-white mb-6">
-            {anime?.seasons?.find((s: any) => s.season_number === selectedSeason)?.name || `${selectedSeason}. Sezon`}
+            {anime?.seasons?.find((s: Season) => s.season_number === selectedSeason)?.name || `${selectedSeason}. Sezon`}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {seasonEpisodes.map((episode) => (
@@ -167,11 +177,15 @@ export default function AnimePage() {
                 onClick={() => handleEpisodeSelect(episode)}
                 className="cursor-pointer bg-card-900 hover:bg-card-800 rounded-lg overflow-hidden shadow-md transition-colors"
               >
-                <img
-                  src={episode.thumbnail || '/episode-placeholder.jpg'}
-                  alt={`Bölüm ${episode.number}`}
-                  className="w-full aspect-video object-cover"
-                />
+                <div className="relative w-full aspect-video">
+                  <Image
+                    src={episode.thumbnail || '/episode-placeholder.jpg'}
+                    alt={`Bölüm ${episode.number}`}
+                    className="object-cover"
+                    fill
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw"
+                  />
+                </div>
                 <div className="p-3">
                   <h3 className="text-white font-semibold mb-1 line-clamp-1">
                     Bölüm {episode.number}
