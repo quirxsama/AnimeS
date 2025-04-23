@@ -26,8 +26,8 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-3">
-            <Image src="/logo.png" alt="AnimeS Logo" width={32} height={32} className="w-8 h-8" />
-            <span className="text-xl font-bold text-white">AnimeS</span>
+            <Image src="/logo.png" alt="QuirxAnime Logo" width={32} height={32} className="w-8 h-8" />
+            <span className="text-xl font-bold text-white">QuirxAnime</span>
           </Link>
 
           <div className="hidden md:flex space-x-8">

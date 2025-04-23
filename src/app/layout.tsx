@@ -10,7 +10,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: 'AnimeS',
+  title: 'QuirxAnime',
   description: 'Anime izleme platformu',
 };
 

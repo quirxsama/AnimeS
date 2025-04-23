@@ -9,13 +9,13 @@ const Header = () => {
           <Link href="/" className="flex items-center space-x-3 group">
             <Image
               src="/logo.png"
-              alt="AnimeS Logo"
+              alt="QuirxAnime Logo"
               width={40}
               height={40}
               className="transition-transform duration-300 group-hover:scale-110"
             />
             <span className="text-2xl font-['Righteous'] bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent hover:from-pink-500 hover:to-purple-500 transition-all duration-300">
-              AnimeS
+              QuirxAnime
             </span>
           </Link>
           

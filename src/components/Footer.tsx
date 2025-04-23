@@ -6,7 +6,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-4 text-purple-400">Hakkımızda</h3>
             <p className="text-gray-300">
-              AnimeS, anime severlere kaliteli bir izleme deneyimi sunmayı amaçlayan bir platformdur.
+              QuirxAnime, anime severlere kaliteli bir izleme deneyimi sunmayı amaçlayan bir platformdur.
             </p>
           </div>
           
@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} AnimeS. Tüm hakları saklıdır.</p>
+          <p>&copy; {new Date().getFullYear()} QuirxAnime. Tüm hakları saklıdır.</p>
         </div>
       </div>
     </footer>
