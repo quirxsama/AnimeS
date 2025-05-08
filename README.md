@@ -1,3 +1,7 @@
+### ❗ Henüz Geliştirilme Aşamasında ❗
+
+---
+
 # AnimeS - Anime İzleme Platformu
 
 AnimeS, anime severler için geliştirilmiş modern ve kullanıcı dostu bir anime izleme platformudur. Next.js kullanılarak geliştirilmiş bu web uygulaması, kullanıcılara geniş bir anime koleksiyonuna erişim sağlar.
@@ -22,7 +26,7 @@ AnimeS, anime severler için geliştirilmiş modern ve kullanıcı dostu bir ani
 
 1. Repoyu klonlayın:
 ```bash
-git clone https://github.com/[kullanıcı-adı]/AnimeS.git
+git clone https://github.com/quirxsama/AnimeS.git
 cd AnimeS
 ```
 
