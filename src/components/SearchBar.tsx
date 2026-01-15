@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { searchAnime } from '@/services/animeService';
 import Link from 'next/link';
 import Image from 'next/image';
+import IconifyIcon from './IconifyIcon';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
@@ -51,15 +52,30 @@ export default function SearchBar() {
   return (
     <div className="relative w-full max-w-2xl mx-auto" ref={searchContainerRef}>
       <div className="relative">
+        <label htmlFor="search-input" className="sr-only">Anime ara</label>
         <input
+          id="search-input"
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Anime ara..."
-          className="w-full px-4 py-3 bg-card-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 transition-colors"
+          className="w-full px-4 py-3 bg-card-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 transition-colors pr-10"
         />
+        {query && (
+          <button
+            type="button"
+            onClick={() => {
+              setQuery('');
+              setResults([]);
+            }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1"
+            aria-label="Aramayı temizle"
+          >
+            <IconifyIcon icon="material-symbols:close" width={20} height={20} />
+          </button>
+        )}
         {loading && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+          <div className={`absolute top-1/2 -translate-y-1/2 pointer-events-none ${query ? 'right-10' : 'right-3'}`}>
             <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-accent-500"></div>
           </div>
         )}
