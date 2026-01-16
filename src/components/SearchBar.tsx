@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { searchAnime } from '@/services/animeService';
 import Link from 'next/link';
 import Image from 'next/image';
+import IconifyIcon from './IconifyIcon';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
@@ -51,15 +52,23 @@ export default function SearchBar() {
   return (
     <div className="relative w-full max-w-2xl mx-auto" ref={searchContainerRef}>
       <div className="relative">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+          <IconifyIcon icon="material-symbols:search" width={20} height={20} />
+        </div>
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Anime ara..."
-          className="w-full px-4 py-3 bg-card-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 transition-colors"
+          aria-label="Anime ara"
+          className="w-full pl-10 pr-4 py-3 bg-card-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 transition-colors"
         />
         {loading && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+          <div
+            className="absolute right-3 top-1/2 -translate-y-1/2"
+            role="status"
+            aria-label="Yükleniyor"
+          >
             <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-accent-500"></div>
           </div>
         )}
