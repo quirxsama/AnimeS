@@ -50,7 +50,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         
         if (data.episodeData?.files?.length) {
           // Tüm kaliteleri kaydet
-          const availableQualities = data.episodeData.files.map((file: any) => ({
+          const availableQualities = data.episodeData.files.map((file: { resolution: number; file: string }) => ({
             resolution: file.resolution,
             url: `${PLAYER_BASE_URL}/animes/${animeSlug}/${seasonNumber}/${file.file}`
           })).sort((a: VideoQuality, b: VideoQuality) => b.resolution - a.resolution)
@@ -156,7 +156,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Kalite Seçici */}
       {qualities.length > 0 && (
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 focus-within:translate-y-0">
           <div className="bg-black/40 backdrop-blur-md rounded-lg p-3 shadow-xl border border-white/10">
             <div className="text-sm text-white font-medium mb-2 drop-shadow-lg">Kalite</div>
             <div className="space-y-1.5">
@@ -168,7 +168,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                     ${currentQuality === quality.resolution
                       ? 'bg-white/20 text-white font-medium shadow-lg'
                       : 'text-white/90 hover:bg-white/10 hover:text-white hover:shadow-md'
-                    } backdrop-blur-sm drop-shadow-lg`}
+                    } backdrop-blur-sm drop-shadow-lg focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none`}
                 >
                   {quality.resolution}p
                 </button>
@@ -183,14 +183,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         onClick={handleSkipIntro}
         className="absolute bottom-20 right-4 px-4 py-2 bg-white/90 hover:bg-white 
                    text-black font-medium rounded-md shadow-lg transition-all 
-                   transform hover:scale-105 active:scale-100"
+                   transform hover:scale-105 active:scale-100
+                   focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:outline-none"
+        aria-label="İntroyu 90 saniye atla"
       >
         +90 Saniye
       </button>
 
       {/* Yükleniyor Göstergesi */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div
+          className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          role="status"
+          aria-live="polite"
+        >
           <div className="flex items-center space-x-2">
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
             <span className="text-white font-medium">Yükleniyor...</span>
@@ -200,7 +206,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Hata Mesajı */}
       {error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/75 backdrop-blur-sm">
+        <div
+          className="absolute inset-0 flex items-center justify-center bg-black/75 backdrop-blur-sm"
+          role="alert"
+        >
           <div className="text-center p-6 max-w-md">
             <p className="text-red-500 font-semibold mb-2">{error}</p>
             <p className="text-white/80 text-sm">
