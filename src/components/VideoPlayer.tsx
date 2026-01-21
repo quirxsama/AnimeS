@@ -156,19 +156,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Kalite Seçici */}
       {qualities.length > 0 && (
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 focus-within:translate-y-0 z-10">
           <div className="bg-black/40 backdrop-blur-md rounded-lg p-3 shadow-xl border border-white/10">
-            <div className="text-sm text-white font-medium mb-2 drop-shadow-lg">Kalite</div>
-            <div className="space-y-1.5">
+            <div className="text-sm text-white font-medium mb-2 drop-shadow-lg" id="quality-label">Kalite</div>
+            <div className="space-y-1.5" role="group" aria-labelledby="quality-label">
               {qualities.map(quality => (
                 <button
                   key={quality.resolution}
                   onClick={() => handleQualityChange(quality.resolution)}
+                  aria-pressed={currentQuality === quality.resolution}
                   className={`block w-full text-left px-4 py-2 rounded-md text-sm transition-all duration-200 
                     ${currentQuality === quality.resolution
                       ? 'bg-white/20 text-white font-medium shadow-lg'
                       : 'text-white/90 hover:bg-white/10 hover:text-white hover:shadow-md'
-                    } backdrop-blur-sm drop-shadow-lg`}
+                    } backdrop-blur-sm drop-shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50`}
                 >
                   {quality.resolution}p
                 </button>
@@ -181,9 +182,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       {/* İntro Atlama Butonu */}
       <button
         onClick={handleSkipIntro}
+        aria-label="İntroyu 90 saniye ileri sar"
         className="absolute bottom-20 right-4 px-4 py-2 bg-white/90 hover:bg-white 
                    text-black font-medium rounded-md shadow-lg transition-all 
-                   transform hover:scale-105 active:scale-100"
+                   transform hover:scale-105 active:scale-100 focus:outline-none focus:ring-2 focus:ring-white/50 focus:scale-105"
       >
         +90 Saniye
       </button>
