@@ -156,7 +156,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Kalite Seçici */}
       {qualities.length > 0 && (
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 focus-within:translate-y-0">
           <div className="bg-black/40 backdrop-blur-md rounded-lg p-3 shadow-xl border border-white/10">
             <div className="text-sm text-white font-medium mb-2 drop-shadow-lg">Kalite</div>
             <div className="space-y-1.5">
@@ -183,7 +183,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         onClick={handleSkipIntro}
         className="absolute bottom-20 right-4 px-4 py-2 bg-white/90 hover:bg-white 
                    text-black font-medium rounded-md shadow-lg transition-all 
-                   transform hover:scale-105 active:scale-100"
+                   transform hover:scale-105 active:scale-100 focus-visible:ring-2 focus-visible:ring-accent"
       >
         +90 Saniye
       </button>
