@@ -5,3 +5,7 @@
 ## 2026-01-24 - Hidden Interactive Elements
 **Learning:** Video player controls hidden via `opacity-0` and `group-hover` are inaccessible to keyboard users if they lack `focus-within` triggers.
 **Action:** Always pair `group-hover` visibility transitions on interactive containers with `focus-within` classes to ensure keyboard accessibility.
+
+## 2026-02-25 - Content Reveal on Focus
+**Learning:** Information cards that reveal details (like summaries) only on hover are inaccessible to keyboard users.
+**Action:** Move `group` class to the focusable parent (e.g., `Link`) and add `group-focus-visible` variants to all child elements that have `group-hover` transitions.
