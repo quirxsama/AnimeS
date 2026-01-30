@@ -9,3 +9,7 @@
 ## 2025-05-22 - Card Interaction Accessibility
 **Learning:** Cards using `group-hover` for revealing content (like summaries) completely hide this content from keyboard users unless `group-focus-visible` is also applied.
 **Action:** When using `group-hover` for content reveal, always add corresponding `group-focus-visible` classes to child elements and ensure the parent container (like `Link`) has `group` and visible focus styles.
+
+## 2025-05-25 - Framer Motion Accessibility Trap
+**Learning:** Using Framer Motion's `whileHover` for essential UI state changes (like revealing content) excludes keyboard users, as it does not trigger on focus.
+**Action:** Prefer CSS utility classes (`group-hover`, `group-focus-visible`) over `whileHover` for simple interactive states to ensure native keyboard accessibility is maintained.
