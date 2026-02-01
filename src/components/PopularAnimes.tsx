@@ -85,6 +85,7 @@ export default function PopularAnimes({ animes }: PopularAnimeProps) {
               onClick={prevPage}
               whileHover={currentPage !== 0 ? { scale: 1.1 } : {}}
               whileTap={currentPage !== 0 ? { scale: 0.9 } : {}}
+              aria-label="Önceki Sayfa"
               className={`p-2 rounded-full transition-all duration-300 relative overflow-hidden
                 ${currentPage === 0 
                   ? 'bg-card-900/50 cursor-not-allowed opacity-50' 
@@ -104,6 +105,7 @@ export default function PopularAnimes({ animes }: PopularAnimeProps) {
               onClick={nextPage}
               whileHover={currentPage !== totalPages - 1 ? { scale: 1.1 } : {}}
               whileTap={currentPage !== totalPages - 1 ? { scale: 0.9 } : {}}
+              aria-label="Sonraki Sayfa"
               className={`p-2 rounded-full transition-all duration-300 relative overflow-hidden
                 ${currentPage === totalPages - 1 
                   ? 'bg-card-900/50 cursor-not-allowed opacity-50' 
@@ -140,11 +142,10 @@ export default function PopularAnimes({ animes }: PopularAnimeProps) {
             >
               <Link
                 href={`/anime/${anime.slug}`}
-                className="block bg-card-900 hover-effect hover-brightness rounded-lg overflow-hidden shadow-lg transition-all duration-300 group h-full"
+                className="block bg-card-900 hover-effect hover-brightness rounded-lg overflow-hidden shadow-lg transition-all duration-300 group h-full focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:outline-none"
               >
                 <motion.div 
-                  className="relative aspect-[2/3]"
-                  whileHover={{ scale: 1.02 }}
+                  className="relative aspect-[2/3] transition-transform duration-300 group-hover:scale-105 group-focus-visible:scale-105"
                   transition={{ duration: 0.3 }}
                 >
                   <Image
@@ -155,14 +156,10 @@ export default function PopularAnimes({ animes }: PopularAnimeProps) {
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16.666vw"
                   />
                   <motion.div 
-                    className="absolute inset-0 bg-gradient-to-t from-background-900/90 via-background-900/20 to-transparent"
-                    initial={{ opacity: 0.6 }}
-                    whileHover={{ opacity: 1 }}
+                    className="absolute inset-0 bg-gradient-to-t from-background-900/90 via-background-900/20 to-transparent opacity-60 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300"
                   >
                     <motion.div 
-                      className="absolute bottom-0 p-4 w-full"
-                      initial={{ y: 10, opacity: 0.8 }}
-                      whileHover={{ y: 0, opacity: 1 }}
+                      className="absolute bottom-0 p-4 w-full translate-y-2 opacity-80 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 transition-all duration-300"
                     >
                       <h3 className="text-base font-medium text-white mb-2 line-clamp-2 flex items-center gap-2">
   <Icon icon="material-symbols:movie" className="text-accent-500" />
