@@ -9,3 +9,7 @@
 ## 2025-05-22 - Card Interaction Accessibility
 **Learning:** Cards using `group-hover` for revealing content (like summaries) completely hide this content from keyboard users unless `group-focus-visible` is also applied.
 **Action:** When using `group-hover` for content reveal, always add corresponding `group-focus-visible` classes to child elements and ensure the parent container (like `Link`) has `group` and visible focus styles.
+
+## 2025-05-23 - Mobile Navigation Accessibility
+**Learning:** Responsive layouts that switch to icon-only buttons on mobile often lose their accessible names, leaving screen reader users with unlabelled links.
+**Action:** Ensure all icon-only variations of navigation links retain their accessible names via `aria-label`, even if the visible text is hidden.
