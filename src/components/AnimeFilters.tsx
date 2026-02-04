@@ -5,7 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import debounce from 'lodash/debounce';
 import axios from 'axios';
-import { Star, Calendar, Tag } from 'lucide-react';
+import { Star, Calendar, Tag, Search } from 'lucide-react';
 
 interface FilterProps {
   onFilterChange: (filters: {
@@ -29,6 +29,7 @@ const categories = [
 const currentYear = new Date().getFullYear();
 
 export default function AnimeFilters({ onFilterChange, isInitialLoad = true }: FilterProps) {
+  const [categorySearch, setCategorySearch] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [scoreRange, setScoreRange] = useState<[number, number]>([0, 10]);
   const [yearRange, setYearRange] = useState<[number, number]>([1950, currentYear]);
@@ -122,8 +123,23 @@ export default function AnimeFilters({ onFilterChange, isInitialLoad = true }: F
           <Tag className="w-5 h-5 text-purple-400" />
           <h3>Kategoriler</h3>
         </div>
+
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400" />
+          <input
+            type="text"
+            placeholder="Kategori ara..."
+            value={categorySearch}
+            onChange={(e) => setCategorySearch(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 text-sm bg-white/5 text-white border border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent placeholder:text-gray-400"
+            aria-label="Kategori ara"
+          />
+        </div>
+
         <div className="grid grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-transparent">
-          {categories.map((category) => (
+          {categories
+            .filter(category => category.toLowerCase().includes(categorySearch.toLowerCase()))
+            .map((category) => (
             <div key={category} className="flex items-center space-x-2 group">
               <Checkbox
                 id={category}

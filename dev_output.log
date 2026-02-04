@@ -1,0 +1,19 @@
+
+> quirx-anime@0.1.0 dev /app
+> next dev --turbopack
+
+   ▲ Next.js 15.1.7 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+
+ ✓ Starting...
+ ⚠ Invalid next.config.js options detected:
+ ⚠     Unrecognized key(s) in object: 'optimizeFonts'
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+ ✓ Ready in 1478ms
+ ○ Compiling /browse ...
+ ✓ Compiled /browse in 8.4s
+ GET /browse 200 in 9549ms
+ ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+ GET /browse 200 in 662ms
+ GET /browse 200 in 1116ms
