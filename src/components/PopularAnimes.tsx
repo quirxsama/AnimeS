@@ -86,6 +86,7 @@ export default function PopularAnimes({ animes }: PopularAnimeProps) {
               aria-label="Önceki sayfa"
               whileHover={currentPage !== 0 ? { scale: 1.1 } : {}}
               whileTap={currentPage !== 0 ? { scale: 0.9 } : {}}
+              aria-label="Önceki Sayfa"
               className={`p-2 rounded-full transition-all duration-300 relative overflow-hidden
                 ${currentPage === 0 
                   ? 'bg-card-900/50 cursor-not-allowed opacity-50' 
@@ -106,6 +107,7 @@ export default function PopularAnimes({ animes }: PopularAnimeProps) {
               aria-label="Sonraki sayfa"
               whileHover={currentPage !== totalPages - 1 ? { scale: 1.1 } : {}}
               whileTap={currentPage !== totalPages - 1 ? { scale: 0.9 } : {}}
+              aria-label="Sonraki Sayfa"
               className={`p-2 rounded-full transition-all duration-300 relative overflow-hidden
                 ${currentPage === totalPages - 1 
                   ? 'bg-card-900/50 cursor-not-allowed opacity-50' 
