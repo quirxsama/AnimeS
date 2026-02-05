@@ -10,10 +10,8 @@
  ⚠ Invalid next.config.js options detected:
  ⚠     Unrecognized key(s) in object: 'optimizeFonts'
  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
- ✓ Ready in 1478ms
- ○ Compiling /browse ...
- ✓ Compiled /browse in 8.4s
- GET /browse 200 in 9549ms
+ ✓ Ready in 1393ms
+ ○ Compiling / ...
+ ✓ Compiled / in 8.6s
+ GET / 200 in 9472ms
  ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
- GET /browse 200 in 662ms
- GET /browse 200 in 1116ms
