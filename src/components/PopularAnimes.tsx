@@ -142,7 +142,7 @@ export default function PopularAnimes({ animes }: PopularAnimeProps) {
             >
               <Link
                 href={`/anime/${anime.slug}`}
-                className="block bg-card-900 hover-effect hover-brightness rounded-lg overflow-hidden shadow-lg transition-all duration-300 group h-full"
+                className="block bg-card-900 hover-effect hover-brightness rounded-lg overflow-hidden shadow-lg transition-all duration-300 group h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500"
               >
                 <motion.div 
                   className="relative aspect-[2/3]"
@@ -157,14 +157,10 @@ export default function PopularAnimes({ animes }: PopularAnimeProps) {
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16.666vw"
                   />
                   <motion.div 
-                    className="absolute inset-0 bg-gradient-to-t from-background-900/90 via-background-900/20 to-transparent"
-                    initial={{ opacity: 0.6 }}
-                    whileHover={{ opacity: 1 }}
+                    className="absolute inset-0 bg-gradient-to-t from-background-900/90 via-background-900/20 to-transparent opacity-60 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300"
                   >
                     <motion.div 
-                      className="absolute bottom-0 p-4 w-full"
-                      initial={{ y: 10, opacity: 0.8 }}
-                      whileHover={{ y: 0, opacity: 1 }}
+                      className="absolute bottom-0 p-4 w-full transform translate-y-2 opacity-80 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 transition-all duration-300"
                     >
                       <h3 className="text-base font-medium text-white mb-2 line-clamp-2 flex items-center gap-2">
   <Icon icon="material-symbols:movie" className="text-accent-500" />
