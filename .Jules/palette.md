@@ -13,3 +13,6 @@
 ## 2025-05-25 - Framer Motion Accessibility Trap
 **Learning:** Using Framer Motion's `whileHover` for essential UI state changes (like revealing content) excludes keyboard users, as it does not trigger on focus.
 **Action:** Prefer CSS utility classes (`group-hover`, `group-focus-visible`) over `whileHover` for simple interactive states to ensure native keyboard accessibility is maintained.
+## 2026-02-02 - Pagination and Focus Visibility
+**Learning:** Icon-only pagination buttons without ARIA labels are invisible to screen readers, and standard outline styles often conflict with dark themes or rounded cards.
+**Action:** Always add `aria-label` to icon buttons and use `focus-visible:ring-*` for clear, theme-aware focus indicators on cards.

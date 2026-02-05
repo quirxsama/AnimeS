@@ -93,6 +93,7 @@ export default function LatestEpisodes({ episodes }: LatestEpisodeProps) {
                   ? 'bg-card-900/50 cursor-not-allowed opacity-50' 
                   : 'bg-card-800 hover:bg-card-700'}`}
               disabled={currentPage === 0}
+              aria-label="Önceki sayfa"
             >
               <motion.div
                 className="absolute inset-0 bg-accent-500/20"
@@ -112,6 +113,7 @@ export default function LatestEpisodes({ episodes }: LatestEpisodeProps) {
                   ? 'bg-card-900/50 cursor-not-allowed opacity-50' 
                   : 'bg-card-800 hover:bg-card-700'}`}
               disabled={currentPage === totalPages - 1}
+              aria-label="Sonraki sayfa"
             >
               <motion.div
                 className="absolute inset-0 bg-accent-500/20"
@@ -143,10 +145,10 @@ export default function LatestEpisodes({ episodes }: LatestEpisodeProps) {
             >
               <Link
                 href={`/watch/${episode.slug}/${episode.season}/${episode.episode}`}
-                className="block bg-card-900 hover:bg-card-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 group h-full"
+                className="block bg-card-900 hover:bg-card-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 group h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <motion.div 
-                  className="relative aspect-[2/3]"
+                  className="relative aspect-[2/3] group-focus-visible:scale-105 transition-transform duration-300"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -158,12 +160,12 @@ export default function LatestEpisodes({ episodes }: LatestEpisodeProps) {
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16.666vw"
                   />
                   <motion.div 
-                    className="absolute inset-0 bg-gradient-to-t from-background-900/90 via-background-900/20 to-transparent"
+                    className="absolute inset-0 bg-gradient-to-t from-background-900/90 via-background-900/20 to-transparent group-focus-visible:opacity-100 transition-opacity duration-300"
                     initial={{ opacity: 0.6 }}
                     whileHover={{ opacity: 1 }}
                   >
                     <motion.div 
-                      className="absolute bottom-0 p-4 w-full"
+                      className="absolute bottom-0 p-4 w-full group-focus-visible:translate-y-0 group-focus-visible:opacity-100 transition-all duration-300"
                       initial={{ y: 10, opacity: 0.8 }}
                       whileHover={{ y: 0, opacity: 1 }}
                     >
