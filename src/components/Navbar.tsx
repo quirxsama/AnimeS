@@ -52,6 +52,7 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
+                aria-label={item.name}
                 className={`p-2 rounded-md transition-colors
                   ${pathname === item.href
                     ? 'text-accent-400 bg-background-900'
